@@ -37,31 +37,18 @@ Trailer: `Tasks: T101, T102, T103, T104, T105, T106, T107`
       `nix develop -c just dev-build` (cheap), `nix flake check`,
       `nix run .#format-check`, `nix run .#hlint` all green.
 
-## Slice 2 — WASI reactor + fixtures + smoke parity (RED→GREEN)
-Commit: `feat: wasm reactor entry + fixture smoke parity for the ledger kernel`
-Trailer: `Tasks: T201, T202, T203, T204, T205, T206`
+## Scope decision (epic owner, Q-005 → A-005): kernel library only
 
-- [ ] T201 (RED) Vendor `conway-mainnet-tx.hex`,
-      `sundae-swap-usdm-disbursement.hex`,
-      `tx-validate-complete-request.json`,
-      `tx-evaluate-scripts-complete-request.json` into `fixtures/`; add the
-      seven smoke derivations to `flake.nix` (`checks` + `apps`):
-      tx-identify, tx-witness-plan, tx-witness-attach, tx-intent,
-      tx-input-context, tx-validate, tx-evaluate-scripts — each runs
-      `wasmtime <cardano-ledger-wasm.wasm>` against a fixture with the
-      inspector's verbatim `jq -e` assertions. Build
-      `.#checks.x86_64-linux.tx-identify-smoke` → observe FAIL (stub exe).
-- [ ] T202 (GREEN) Replace `app/Main.hs` with the WASI reactor
-      (`Conway.Inspector.runLedgerOperationInput`); delete
-      `src/CardanoLedgerWasm.hs`; drop `CardanoLedgerWasm` + `cborg` from the
-      cabal library; exe depends on the lib (+ aeson, bytestring, text).
-- [ ] T203 Rebuild the smoke → observe PASS; confirm all seven smokes green.
-- [ ] T204 Add CI smoke jobs to `.github/workflows/ci.yml`
-      (`nix run .#<name>-smoke`, `needs: build-gate`).
-- [ ] T205 If dropping the stub changed the dep closure, recompute
-      `dependenciesHash` in `nix/wasm-targets.nix`.
-- [ ] T206 Verify: `nix flake check` runs every smoke green; full
-      `./gate.sh` green; record fixture paths + smoke evidence in WIP.md.
+W1 ships the lifted Conway kernel **library** that builds to wasm32-wasi. The
+runtime "fixtures pass against the lifted package" proof — a WASI reactor exe +
+vendored fixtures + `wasmtime`/`jq` smoke parity (originally planned as slice 2)
+— is **deferred to W2 / lambdasistemi/cardano-ledger-inspector#87**, which
+re-points the inspector at this kernel and runs its existing
+`wasm-tx-inspector` + smokes against the linked external package. This avoids
+duplicating the exe + smokes that W2 already owns. The package retains the W0
+cborg stub exe as the wasm entry point for this ticket.
+
+(Originally-planned slice-2 tasks T201–T206 dropped here and carried by #87.)
 
 ## Finalization (orchestrator-owned)
-- [ ] T999 PR body audit, drop gate.sh, mark ready.
+- [X] T999 PR body audit, scope note, drop gate.sh, mark ready.
