@@ -59,11 +59,11 @@ Owned files: `release-please-config.json`, `.release-please-manifest.json`,
 `.github/workflows/release.yml`, `.github/workflows/sync-cabal-version.yml`,
 and the `ci.yml` version-drift step.
 
-- [ ] T011 `release-please-config.json` + `.release-please-manifest.json`
+- [X] T011 `release-please-config.json` + `.release-please-manifest.json`
   (manifest mode, `0.1.0`).
-- [ ] T012 `release.yml` (release-please-action@v4, no publish for W0).
-- [ ] T013 `sync-cabal-version.yml` (semver→PVP, guarded to `release-please--`).
-- [ ] T014 CI "Cabal version matches manifest" drift step; verify with
+- [X] T012 `release.yml` (release-please-action@v4, no publish for W0).
+- [X] T013 `sync-cabal-version.yml` (semver→PVP, guarded to `release-please--`).
+- [X] T014 CI "Cabal version matches manifest" drift step; verify with
   `jq`/`actionlint`.
 
 Commit: `ci: release-please manifest mode + sync-cabal-version drift guard` /
