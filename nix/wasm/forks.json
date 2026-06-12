@@ -6,9 +6,10 @@
   },
   "pins": {
     "plutus": {
-      "location": "https://github.com/intersectmbo/plutus.git",
-      "rev": "d1684df33d1b7226dfa5f2247aa67a46c2d5453b",
-      "sha256": "12gnzmyhx0z9j7a269qgcm702njqr784nw3yypfgv6wi0gasii9j",
+      "comment": "lambdasistemi/plutus 1.65.0.0-wasm32.1 — 32-bit-correct, 64-bit-neutral Plutus evaluator. Replaces the unpatched upstream pin, which silently diverges from the 64-bit chain on wasm32.",
+      "location": "https://github.com/lambdasistemi/plutus.git",
+      "rev": "dec7b4980f5f171a1e46c67dd3347240da2266cf",
+      "sha256": "1riif5an8z0y7ma642c545cj2ns4clq43w15m7ghjkjfb6mis7vm",
       "subdirs": ["plutus-core", "plutus-ledger-api", "plutus-tx"]
     },
     "hs-memory": {
