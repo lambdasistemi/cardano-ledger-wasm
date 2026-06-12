@@ -1,6 +1,6 @@
 cabal-version: 3.0
 name:          cardano-ledger-wasm
-version:       0.1.0.0
+version:       0.1.1.0
 synopsis:      WASM skeleton for Cardano ledger operations
 description:   Empty-but-buildable WASM skeleton for Cardano ledger operations.
 author:        lambdasistemi
