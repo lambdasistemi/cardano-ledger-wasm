@@ -69,6 +69,23 @@ and the `ci.yml` version-drift step.
 Commit: `ci: release-please manifest mode + sync-cabal-version drift guard` /
 `Tasks: T011, T012, T013, T014`.
 
+## Slice S4 — dev-shell offline fix  (one `fix:` commit)
+
+Discovered when S1's CI ran: the required `Dev shell` job failed on a fresh
+runner because `just dev-build` ran `wasm32-wasi-cabal update` (https), which the
+wasm cabal cannot do without an ambient downloader/cache. Passed locally only
+because of a warm cache.
+
+Owned files: `flake.nix`, `justfile`.
+
+- [X] T016 Make `nix develop -c just dev-build` work offline: seed the packaged
+  build's prebuilt cabal cache (`passthru.prebuiltDeps`) into a writable
+  `CABAL_DIR` via a `mkShell` env attr, drop the https `update`, keep a real
+  `wasm32-wasi-cabal build`. Verified curl-free cold via `env -i` (CI-faithful).
+
+Commit: `fix: make nix develop dev-build work offline (local CHaP/hackage repos)`
+/ `Tasks: T016`.
+
 ## Finalization (orchestrator)
 
 - [ ] T015 Finalization audit, drop `gate.sh`, mark ready, merge after CI green,
