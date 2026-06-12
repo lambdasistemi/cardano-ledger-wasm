@@ -23,19 +23,19 @@ Owned files: `flake.nix`, `flake.lock`, `cabal.project`, `cabal-wasm.project`,
 `cardano-ledger-wasm/**`, `nix/wasm/**`, `nix/wasm-targets.nix`, `justfile`,
 `fourmolu.yaml`.
 
-- [ ] T003 Vendor `nix/wasm/{default,mkCardanoLedgerWasm,cabal-project-fragment}.nix`,
+- [X] T003 Vendor `nix/wasm/{default,mkCardanoLedgerWasm,cabal-project-fragment}.nix`,
   `nix/wasm/forks.json`, `nix/wasm/c-libs/**` verbatim from the inspector.
-- [ ] T004 `flake.nix` mirroring inspector inputs/overlays (drop purescript/UI),
+- [X] T004 `flake.nix` mirroring inspector inputs/overlays (drop purescript/UI),
   exposing `lib.wasm`, `packages.cardano-ledger-wasm`, `packages.default`,
   `apps.format-check`, `apps.hlint`, `devShells.default` (wasm toolchain on PATH).
-- [ ] T005 Stub package `cardano-ledger-wasm/**` + `cabal-wasm.project` +
+- [X] T005 Stub package `cardano-ledger-wasm/**` + `cabal-wasm.project` +
   `cabal.project`, mirroring the inspector `wasm-smoke` target (cborg-only).
-- [ ] T006 `nix/wasm-targets.nix` wiring `cardano-ledger-wasm` via
+- [X] T006 `nix/wasm-targets.nix` wiring `cardano-ledger-wasm` via
   `lib.wasm.mkCardanoLedgerWasm` (`srpForks=["cborg"]`, `withCLibs=false`);
   compute + lock `dependenciesHash`.
-- [ ] T007 `justfile` (`dev-build`, `build`, `flake-check`, `format`,
+- [X] T007 `justfile` (`dev-build`, `build`, `flake-check`, `format`,
   `format-check`, `hlint`, `ci`) + `fourmolu.yaml`.
-- [ ] T008 Prove: `nix build` yields `cardano-ledger-wasm.wasm`,
+- [X] T008 Prove: `nix build` yields `cardano-ledger-wasm.wasm`,
   `nix flake check` green, `nix develop -c just dev-build` green,
   `nix run .#format-check` + `nix run .#hlint` green. `./gate.sh` passes.
 
@@ -46,7 +46,7 @@ Commit: `feat: buildable wasm32-wasi skeleton (flake, toolchain, stub)` /
 
 Owned files: `.github/workflows/ci.yml`.
 
-- [ ] T009 `ci.yml` on `nixos`: jobs `Build Gate` (nix build + flake check),
+- [X] T009 `ci.yml` on `nixos`: jobs `Build Gate` (nix build + flake check),
   `Dev shell` (`nix develop -c just dev-build`), `Format (fourmolu)`, `Hlint`;
   cachix-action@v17 name `paolino`; concurrency cancel-in-progress.
 

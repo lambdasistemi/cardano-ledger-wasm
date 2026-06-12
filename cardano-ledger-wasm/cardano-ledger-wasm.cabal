@@ -1,0 +1,27 @@
+cabal-version: 3.0
+name:          cardano-ledger-wasm
+version:       0.1.0.0
+synopsis:      WASM skeleton for Cardano ledger operations
+description:   Empty-but-buildable WASM skeleton for Cardano ledger operations.
+author:        lambdasistemi
+maintainer:    paolino@lambdasistemi.com
+category:      Cardano
+license:       MIT
+build-type:    Simple
+
+library
+  exposed-modules:  CardanoLedgerWasm
+  hs-source-dirs:   src
+  build-depends:    base               >=4.19 && <5
+                  , bytestring         >=0.12 && <0.13
+                  , cborg              >=0.2.10 && <0.3
+  default-language: Haskell2010
+  ghc-options:      -Wall
+
+executable cardano-ledger-wasm
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  build-depends:    base               >=4.19 && <5
+                  , cardano-ledger-wasm
+  default-language: Haskell2010
+  ghc-options:      -Wall
