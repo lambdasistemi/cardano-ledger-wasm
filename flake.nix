@@ -128,6 +128,9 @@
           };
 
           devShells.default = pkgs.mkShell {
+            CARDANO_LEDGER_WASM_PREBUILT_DEPS =
+              wasmTargets.cardano-ledger-wasm.passthru.prebuiltDeps;
+
             buildInputs = [
               ghcWasmMeta
               wasiSdk
