@@ -5,27 +5,37 @@ trailer; this file's boxes are checked in the same amended commit.
 
 ## Slice 1 — kernel library compiles to wasm (additive)
 Commit: `feat: lift Conway ledger kernel library into cardano-ledger-wasm`
-Trailer: `Tasks: T101, T102, T103, T104, T105`
+Trailer: `Tasks: T101, T102, T103, T104, T105, T106, T107`
 
-- [ ] T101 Copy `Conway.Inspector`, `Conway.Inspector.Common`, `.Context`,
+- [X] T101 Copy `Conway.Inspector`, `Conway.Inspector.Common`, `.Context`,
       `.Evaluation`, `.Validation` into `cardano-ledger-wasm/src/Conway/`
       with module paths unchanged (byte-identical source). Keep the stub
       `src/CardanoLedgerWasm.hs` and `app/Main.hs` for this slice.
-- [ ] T102 `cardano-ledger-wasm.cabal`: library exposes `Conway.Inspector`
+- [X] T102 `cardano-ledger-wasm.cabal`: library exposes `Conway.Inspector`
       + other-modules AND still `CardanoLedgerWasm`; add the full ledger dep
       set (aeson, base16-bytestring, bytestring, cardano-crypto-class,
       cardano-ledger-{alonzo,api,binary,conway,core,mary,shelley},
       cardano-slotting, containers, data-default, microlens,
       plutus-ledger-api, text, time). Exe unchanged.
-- [ ] T103 Rewrite `cabal-wasm.project` to list every `forks.json` SRP
+- [X] T103 Rewrite `cabal-wasm.project` to list every `forks.json` SRP
       stanza (`--sha256` nix32) + package flags/constraints; `packages:
-      cardano-ledger-wasm`.
-- [ ] T104 Update `nix/wasm-targets.nix`: `srpForks` = all eight forks,
+      cardano-ledger-wasm`. Hackage index-state `2026-04-14T00:00:00Z`,
+      CHaP `2026-04-15T11:20:53Z` (Q-001/A-001 — forks.json's 2026-04-15 is
+      the FOD truncation cutoff, not the cabal request).
+- [X] T104 Update `nix/wasm-targets.nix`: `srpForks` = all eight forks,
       `withCLibs = true`, thread `wasiSdk`, recompute `dependenciesHash`
-      (set `lib.fakeHash`, run the deps FOD, paste the reported hash).
-- [ ] T105 Verify: `nix build .#cardano-ledger-wasm` compiles the kernel lib
-      to wasm; `nix develop -c just dev-build`; `nix flake check`;
-      `nix run .#format-check`; `nix run .#hlint` all green; record in WIP.md.
+      (= `sha256-KmY5jyyPc2NFXZSP133Tq6rQWp3d7STwT4O51h7Ukys=`, matches the
+      inspector's proven `wasm-tx-inspector` closure).
+- [X] T105 (Q-002 → epic-owner Option 1) `flake.nix`: `devShells.default`
+      provides the wasm toolchain + `pkg-config` + the shared `nix/wasm/c-libs`
+      cLibs (`PKG_CONFIG_PATH`) for interactive use; NO `PREBUILT_DEPS`
+      closure-realize on shell entry.
+- [X] T106 (Q-002/Q-005 → epic-owner Option 1) `justfile` `dev-build` is a
+      CHEAP dev-shell usability gate (mirror mpfs/inspector — never build wasm
+      in-shell). The real wasm proof is `nix build .#cardano-ledger-wasm`.
+- [X] T107 Verify: `nix build .#cardano-ledger-wasm` (kernel lib → wasm),
+      `nix develop -c just dev-build` (cheap), `nix flake check`,
+      `nix run .#format-check`, `nix run .#hlint` all green.
 
 ## Slice 2 — WASI reactor + fixtures + smoke parity (RED→GREEN)
 Commit: `feat: wasm reactor entry + fixture smoke parity for the ledger kernel`

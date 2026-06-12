@@ -1,7 +1,7 @@
--- WASM build configuration for the cardano-ledger-wasm stub target.
---
--- Usage:
---   wasm32-wasi-cabal --project-file=cabal-wasm.project build cardano-ledger-wasm
+-- WASM build configuration for the cardano-ledger-wasm target.
+-- Exercises the full ledger override set: plutus fork, hs-memory, cborg,
+-- foundation, network, double-conversion, criterion, lmdb-mock + wasm32-built
+-- libsodium / secp256k1 / libblst via pkg-config.
 
 repository cardano-haskell-packages
   url: https://chap.intersectmbo.org/
@@ -26,13 +26,6 @@ index-state:
 
 packages: cardano-ledger-wasm
 
-source-repository-package
-  type: git
-  location: https://github.com/amesgen/cborg
-  tag: 2dff24d241d9940c5a7f5e817fcf4c1aa4a8d4bf
-  subdir: cborg
-  --sha256: 18zasdb78by914pi6lb7hvi42jqh6pr76r6j5ryl1l4hj9mgbv6a
-
 package cardano-crypto-praos
   flags: -external-libsodium-vrf
 
@@ -47,6 +40,63 @@ package digest
 
 package plutus-core
   flags: +do-not-build-plutus-exec
+
+source-repository-package
+  type: git
+  location: https://github.com/intersectmbo/plutus.git
+  tag: d1684df33d1b7226dfa5f2247aa67a46c2d5453b
+  subdir:
+    plutus-core
+    plutus-ledger-api
+    plutus-tx
+  --sha256: 12gnzmyhx0z9j7a269qgcm702njqr784nw3yypfgv6wi0gasii9j
+
+source-repository-package
+  type: git
+  location: https://github.com/haskell-wasm/hs-memory.git
+  tag: a198a76c584dc2cfdcde6b431968de92a5fed65e
+  --sha256: 1q4dxijzxc0z67g2yqxcigzwq9xwgdfyqll6kazmznvxw8pvf41d
+
+source-repository-package
+  type: git
+  location: https://github.com/palas/criterion.git
+  tag: dd160d2b5f051e918e72fe1957d77905682b8d6c
+  subdir: criterion-measurement
+  --sha256: 19svb598gx6lmb5xly9fspd9wnszyygxplh9vl1bs56y8hwk0cf3
+
+source-repository-package
+  type: git
+  location: https://github.com/palas/haskell-lmdb-mock.git
+  tag: c8d61e6eee03ee271e7768c0576110da885aec48
+  --sha256: 10krl9p8whwzdjz8c1yq79c01amw3mdv8yssrwli1a9sccr7a07s
+
+source-repository-package
+  type: git
+  location: https://github.com/palas/double-conversion.git
+  tag: b2030245727ee56de76507fe305e3741f6ce3260
+  --sha256: 1gad7zrb2cqxvxslvbx36m5hddlv50q4hrrv43kz6gf71hfhfg4k
+
+source-repository-package
+  type: git
+  location: https://github.com/amesgen/cborg
+  tag: 2dff24d241d9940c5a7f5e817fcf4c1aa4a8d4bf
+  subdir: cborg
+  --sha256: 18zasdb78by914pi6lb7hvi42jqh6pr76r6j5ryl1l4hj9mgbv6a
+
+source-repository-package
+  type: git
+  location: https://github.com/Jimbo4350/foundation.git
+  tag: b3cb78484fe6f6ce1dfcef59e72ceccc530e86ac
+  subdir:
+    basement
+    foundation
+  --sha256: 072c4bl29v1xs8vd1q9iizv218jmpdks005wxn1i2wz8ynbqg8j0
+
+source-repository-package
+  type: git
+  location: https://github.com/haskell-wasm/network
+  tag: ab92e48e9fdf3abe214f85fdbe5301c1280e14e9
+  --sha256: 0shdyfjfrzixz7sh45j9czsbylfhbb9wjirn6rlhd8fp0vz6gsak
 
 constraints: time installed
 tests: False

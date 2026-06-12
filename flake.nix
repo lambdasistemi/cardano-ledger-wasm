@@ -67,6 +67,10 @@
 
           ghcWasmMeta = ghc-wasm-meta.packages.${system}.all_9_12;
           wasiSdk = ghc-wasm-meta.packages.${system}.wasi-sdk;
+          wasmCLibs = import ./nix/wasm/c-libs {
+            inherit pkgs;
+            wasi-sdk = wasiSdk;
+          };
           chap = CHaP;
 
           wasmTargets = import ./nix/wasm-targets.nix {
@@ -128,18 +132,18 @@
           };
 
           devShells.default = pkgs.mkShell {
-            CARDANO_LEDGER_WASM_PREBUILT_DEPS =
-              wasmTargets.cardano-ledger-wasm.passthru.prebuiltDeps;
+            PKG_CONFIG_PATH = wasmCLibs.pkgConfigPath;
 
             buildInputs = [
               ghcWasmMeta
               wasiSdk
+              pkgs.pkg-config
               pkgs.just
               pkgs.wasmtime
               pkgs.jq
               pkgs.haskellPackages.fourmolu
               pkgs.haskellPackages.hlint
-            ];
+            ] ++ wasmCLibs.all;
           };
         };
     };
