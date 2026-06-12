@@ -1,0 +1,46 @@
+name: version-check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  version-check:
+    name: Cabal version matches manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cabal version matches manifest
+        run: |
+          set -euo pipefail
+
+          cabal_version="$(
+            sed -n -E 's/^version:[[:space:]]*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+).*$/\1/p' \
+              cardano-ledger-wasm/cardano-ledger-wasm.cabal
+          )"
+          manifest_version="$(jq -r '."."' .release-please-manifest.json)"
+          expected_cabal_version="${manifest_version}.0"
+
+          if [ -z "$cabal_version" ]; then
+            echo "Could not read cabal version from cardano-ledger-wasm/cardano-ledger-wasm.cabal" >&2
+            exit 1
+          fi
+
+          if [ "$cabal_version" != "$expected_cabal_version" ]; then
+            echo "Cabal version ${cabal_version} does not match manifest ${manifest_version} (${expected_cabal_version})" >&2
+            exit 1
+          fi
+
+          echo "Cabal version ${cabal_version} matches manifest ${manifest_version}"
