@@ -65,17 +65,27 @@ paths `Conway.Inspector` / `Conway.Inspector.{Common,Context,Evaluation,Validati
   cabalWasmProjectFragment}`) remains intact and is the single source of
   truth for the fork pin — this repo does not duplicate the pin elsewhere.
 
+## Scope decision (epic owner, Q-005 → A-005)
+
+W1 ships the lifted Conway kernel **library** that builds to wasm32-wasi. The
+runtime "fixtures pass against the lifted package" proof (a WASI reactor exe +
+vendored fixtures + `wasmtime`/`jq` smoke parity, originally FR6/SC2) is
+**deferred to W2 / lambdasistemi/cardano-ledger-inspector#87**, which re-points
+the inspector at this kernel and runs its existing `wasm-tx-inspector` + smokes
+against the linked external package — rather than duplicating them here. The
+package retains the W0 cborg stub exe as the wasm entry point for this ticket.
+
 ## Success criteria
 
-- SC1: `nix build .#cardano-ledger-wasm` produces a wasm32-wasi reactor
-  that links the Conway ledger kernel.
-- SC2: `nix flake check` is green, including every ported smoke check;
-  each smoke runs the built `.wasm` under `wasmtime` against a vendored
-  fixture and asserts the JSON response with `jq`.
-- SC3: `nix develop -c just dev-build` succeeds.
-- SC4: `nix run .#format-check` and `nix run .#hlint` pass over the lifted
-  modules.
-- SC5: CI is green on all jobs (build-gate, dev-shell, format, hlint, smokes).
+- SC1 (met): `nix build .#cardano-ledger-wasm` builds the package — the Conway
+  kernel library compiles to wasm32-wasi (the shipped exe remains the W0 stub).
+- SC2 (→ W2/#87): runtime fixture smokes against the lifted package — proven in
+  W2 via the inspector's smokes against the linked external kernel.
+- SC3 (met): `nix develop -c just dev-build` succeeds (cheap dev-shell gate,
+  Option 1 — mirrors mpfs/inspector, no in-shell wasm build).
+- SC4 (met): `nix run .#format-check` and `nix run .#hlint` pass over the
+  lifted modules.
+- SC5 (met): CI green on all jobs (build-gate, dev-shell, format, hlint).
 
 ## Out of scope (later tickets)
 
