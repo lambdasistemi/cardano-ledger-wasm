@@ -1,0 +1,16 @@
+result
+result-*
+artifacts/
+_site/
+site/
+dist-newstyle/
+.direnv/
+.envrc
+.wasm-dev-workspace/
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+WIP.md
+.orch/
+.llm/
