@@ -9,12 +9,12 @@ Lists referenced here are specified in [spec.md](./spec.md) and
 
 ## Orchestrator-owned (no driver)
 
-- [ ] T001 Repo creation + GitHub admin (repo, labels, topics, actions perms,
+- [X] T001 Repo creation + GitHub admin (repo, labels, topics, actions perms,
   Cachix secret, branch ruleset, stub-CI bootstrap on `main`). *(done in
   bootstrap; tracked here for the audit)*
-- [ ] T002 Add `gate.sh` (`chore: add gate.sh`) and these docs + constitution
+- [X] T002 Add `gate.sh` (`chore: add gate.sh`) and these docs + constitution
   (`docs:`), open the draft PR assigned to `paolino`.
-- [ ] T010 Per-slice review + push; finalization audit; drop `gate.sh`; mark
+- [X] T010 Per-slice review + push; finalization audit; drop `gate.sh`; mark
   ready; merge; verify acceptance.
 
 ## Slice S1 — scaffold the buildable wasm skeleton  (one `feat:` commit)
@@ -88,5 +88,5 @@ Commit: `fix: make nix develop dev-build work offline (local CHaP/hackage repos)
 
 ## Finalization (orchestrator)
 
-- [ ] T015 Finalization audit, drop `gate.sh`, mark ready, merge after CI green,
+- [X] T015 Finalization audit, drop `gate.sh`, mark ready, merge after CI green,
   confirm `main` protected + acceptance met. Emit `COMPLETE`.
