@@ -1,0 +1,68 @@
+{
+  "comment": "Vendored source-repository-package pins mirroring IntersectMBO/cardano-api master cabal.project if arch(wasm32). Owned here under lambdasistemi; pin bumps are a single-file change. Hashes are nix32 per /nix skill (SRI format triggers fetchgit FODs that fail the store-path reference scan). First-iteration revs captured from cardano-api master on 2026-04-23.",
+  "indexState": {
+    "hackage": "2026-04-15T00:00:00Z",
+    "chap": "2026-04-15T11:20:53Z"
+  },
+  "pins": {
+    "plutus": {
+      "location": "https://github.com/intersectmbo/plutus.git",
+      "rev": "d1684df33d1b7226dfa5f2247aa67a46c2d5453b",
+      "sha256": "12gnzmyhx0z9j7a269qgcm702njqr784nw3yypfgv6wi0gasii9j",
+      "subdirs": ["plutus-core", "plutus-ledger-api", "plutus-tx"]
+    },
+    "hs-memory": {
+      "location": "https://github.com/haskell-wasm/hs-memory.git",
+      "rev": "a198a76c584dc2cfdcde6b431968de92a5fed65e",
+      "sha256": "1q4dxijzxc0z67g2yqxcigzwq9xwgdfyqll6kazmznvxw8pvf41d",
+      "subdirs": []
+    },
+    "criterion-measurement": {
+      "location": "https://github.com/palas/criterion.git",
+      "rev": "dd160d2b5f051e918e72fe1957d77905682b8d6c",
+      "sha256": "19svb598gx6lmb5xly9fspd9wnszyygxplh9vl1bs56y8hwk0cf3",
+      "subdirs": ["criterion-measurement"]
+    },
+    "haskell-lmdb-mock": {
+      "location": "https://github.com/palas/haskell-lmdb-mock.git",
+      "rev": "c8d61e6eee03ee271e7768c0576110da885aec48",
+      "sha256": "10krl9p8whwzdjz8c1yq79c01amw3mdv8yssrwli1a9sccr7a07s",
+      "subdirs": []
+    },
+    "double-conversion": {
+      "location": "https://github.com/palas/double-conversion.git",
+      "rev": "b2030245727ee56de76507fe305e3741f6ce3260",
+      "sha256": "1gad7zrb2cqxvxslvbx36m5hddlv50q4hrrv43kz6gf71hfhfg4k",
+      "subdirs": []
+    },
+    "cborg": {
+      "location": "https://github.com/amesgen/cborg",
+      "rev": "2dff24d241d9940c5a7f5e817fcf4c1aa4a8d4bf",
+      "sha256": "18zasdb78by914pi6lb7hvi42jqh6pr76r6j5ryl1l4hj9mgbv6a",
+      "subdirs": ["cborg"]
+    },
+    "foundation": {
+      "location": "https://github.com/Jimbo4350/foundation.git",
+      "rev": "b3cb78484fe6f6ce1dfcef59e72ceccc530e86ac",
+      "sha256": "072c4bl29v1xs8vd1q9iizv218jmpdks005wxn1i2wz8ynbqg8j0",
+      "subdirs": ["basement", "foundation"]
+    },
+    "network": {
+      "location": "https://github.com/haskell-wasm/network",
+      "rev": "ab92e48e9fdf3abe214f85fdbe5301c1280e14e9",
+      "sha256": "0shdyfjfrzixz7sh45j9czsbylfhbb9wjirn6rlhd8fp0vz6gsak",
+      "subdirs": []
+    }
+  },
+  "packageFlags": {
+    "plutus-core": "+do-not-build-plutus-exec",
+    "cardano-crypto-praos": "-external-libsodium-vrf",
+    "atomic-counter": "+no-cmm",
+    "digest": "-pkg-config"
+  },
+  "packageGhcOptions": {
+    "crypton": "-optc-DARGON2_NO_THREADS"
+  },
+  "constraints": ["time installed"],
+  "allowNewer": ["time"]
+}

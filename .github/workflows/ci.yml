@@ -16,5 +16,50 @@ jobs:
     runs-on: nixos
     steps:
       - uses: actions/checkout@v6
-      - name: Stub CI
-        run: echo "CI stub — replaced by the real CI in the wasm-skeleton PR"
+      - uses: cachix/cachix-action@v17
+        with:
+          name: paolino
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Build wasm artifact
+        run: nix build --quiet .#cardano-ledger-wasm
+      - name: Flake check
+        run: nix flake check --quiet
+
+  dev-shell:
+    name: Dev shell
+    runs-on: nixos
+    needs: build-gate
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cachix/cachix-action@v17
+        with:
+          name: paolino
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Build in dev shell
+        run: nix develop --quiet -c just dev-build
+
+  format:
+    name: Format (fourmolu)
+    runs-on: nixos
+    needs: build-gate
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cachix/cachix-action@v17
+        with:
+          name: paolino
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Check formatting
+        run: nix run --quiet .#format-check
+
+  hlint:
+    name: Hlint
+    runs-on: nixos
+    needs: build-gate
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cachix/cachix-action@v17
+        with:
+          name: paolino
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Run Hlint
+        run: nix run --quiet .#hlint
